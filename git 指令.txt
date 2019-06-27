@@ -1,31 +1,31 @@
-²½Öè£º
-³õÊ¼»¯£º
+æ­¥éª¤ï¼š
+åˆå§‹åŒ–ï¼š
   git init  
 		
-Ìí¼ÓÄÚÈİ:ÓĞ¹¤×÷Çø×ªÔİ´æÇø
+æ·»åŠ å†…å®¹:æœ‰å·¥ä½œåŒºè½¬æš‚å­˜åŒº
   git add . 
 
-ÍÆËÍ£ºÓÉÔİ´æÇø×ª·ÖÖ§Çø		
-git commit -m '±¸×¢¹¦ÄÜ'
+æ¨é€ï¼šç”±æš‚å­˜åŒºè½¬åˆ†æ”¯åŒº		
+git commit -m 'å¤‡æ³¨åŠŸèƒ½'
 
-É¾³ıÖ¸¶¨µÄÔ¶³Ì£º
+åˆ é™¤æŒ‡å®šçš„è¿œç¨‹ï¼š
    git remote rm origin	
 
-Ìí¼ÓÔ¶³Ì²Ö¿â£º
-   git remote add origin <ÄãµÄÏîÄ¿githubµØÖ·>
+æ·»åŠ è¿œç¨‹ä»“åº“ï¼š
+   git remote add origin <ä½ çš„é¡¹ç›®githubåœ°å€>
 
-ÉÏ´«´úÂëµ½githubÖ®Ç°ĞèÒªÏÈpull  ÏÂÀ­Ô¶³Ì
+ä¸Šä¼ ä»£ç åˆ°githubä¹‹å‰éœ€è¦å…ˆpull  ä¸‹æ‹‰è¿œç¨‹
    git pull origin master	
 
-ÈçºÎ½â¾öfailed to push some refs to git£º³öÏÖ´íÎóµÄÖ÷ÒªÔ­ÒòÊÇgithubÖĞµÄREADME.mdÎÄ¼ş²»ÔÚ±¾µØ´úÂëÄ¿Â¼ÖĞ
+å¦‚ä½•è§£å†³failed to push some refs to gitï¼šå‡ºç°é”™è¯¯çš„ä¸»è¦åŸå› æ˜¯githubä¸­çš„README.mdæ–‡ä»¶ä¸åœ¨æœ¬åœ°ä»£ç ç›®å½•ä¸­
    git pull --rebase origin master	
 
-ÍÆËÍµ½github£º
+æ¨é€åˆ°githubï¼š
 git push -u origin master
 
 
 
-Ï¸½Ú£º
-	×÷Îª git µÄ»ù´¡ÅäÖÃ£¬×÷ÓÃÊÇ¸æËß git ÄãÊÇË­£¬ÄãÊäÈëµÄĞÅÏ¢½«³öÏÖÔÚÄã´´½¨µÄÌá½»ÖĞ¡£
-	git config --global user.name "ÄãµÄÃû×Ö»òêÇ³Æ"
-	git config --global user.email "ÄãµÄÓÊÏä"
+ç»†èŠ‚ï¼š
+	ä½œä¸º git çš„åŸºç¡€é…ç½®ï¼Œä½œç”¨æ˜¯å‘Šè¯‰ git ä½ æ˜¯è°ï¼Œä½ è¾“å…¥çš„ä¿¡æ¯å°†å‡ºç°åœ¨ä½ åˆ›å»ºçš„æäº¤ä¸­ã€‚
+	git config --global user.name "daiwenyong"
+	git config --global user.email "1106085869@qq.com"

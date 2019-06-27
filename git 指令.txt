@@ -29,3 +29,11 @@ git push -u origin master
 	作为 git 的基础配置，作用是告诉 git 你是谁，你输入的信息将出现在你创建的提交中。
 	git config --global user.name "daiwenyong"
 	git config --global user.email "1106085869@qq.com"
+
+第二次推送：
+       在当前文件夹下克隆远程地址https
+	git clone https://github.com/***.git
+	git add .
+	git commit -m '备注功能'
+	git push -u origin master
+	

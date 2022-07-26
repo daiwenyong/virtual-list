@@ -76,7 +76,6 @@ export default {
 .container {
     position: relative;
     width: 100%;
-    /*height: 500px;*/
     margin: auto;
     overflow-x: hidden;
     overflow-y: scroll;

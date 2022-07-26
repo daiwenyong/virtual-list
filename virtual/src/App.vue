@@ -7,31 +7,31 @@
                 :itemHeight="100"
                 class="virtual-list"
                 v-slot="{item}">
-                <div class="virtual-item">
+                <div class="virtual-item" style="height: 100px">
                     <span style="color: red">{{item.index}}</span>{{ item.title }}
                 </div>
             </virtual-list>
         </div>
         <div>
             <h2>不定高</h2>
-            <virtual-list
-                :list="datalist"
-                :itemHeight="100"
+            <virtual-list2
+                :list="datalist2"
+                :estimateHeight="100"
                 class="virtual-list"
                 v-slot="{item}">
                 <div class="virtual-item">
                     <span style="color: red">{{item.index}}</span>{{ item.title }}
                 </div>
-            </virtual-list>
+            </virtual-list2>
         </div>
     </div>
 </template>
 
 <script>
 import VirtualList from './weights/VirtualList'
-import VirtualList2 from './weights/VirtualList'
+import VirtualList2 from './weights/VirtualList2'
 
-import { getData } from "./config"
+import { getData,getData2 } from "./config"
 
 export default {
     name: 'App',
@@ -41,7 +41,8 @@ export default {
     },
     data(){
         return{
-            datalist:getData()
+            datalist:getData(),
+            datalist2:getData2(),
         }
     }
 }
@@ -62,7 +63,6 @@ export default {
 .virtual-item{
     box-sizing: border-box;
     border: 1px solid #e8e8e8;
-    height: 100px;
 }
 
 </style>

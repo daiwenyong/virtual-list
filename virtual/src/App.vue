@@ -19,7 +19,7 @@
                 :estimateHeight="100"
                 class="virtual-list"
                 v-slot="{item}">
-                <div class="virtual-item">
+                <div class="virtual-item" style="min-height: 100px">
                     <span style="color: red">{{item.index}}</span>{{ item.title }}
                 </div>
             </virtual-list2>

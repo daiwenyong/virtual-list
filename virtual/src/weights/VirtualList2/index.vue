@@ -9,7 +9,7 @@
                 :id="item.index"
                 class="container-item"
             >
-                <slot :item="item" />
+                <slot :item="item"/>
             </div>
         </div>
     </div>
@@ -29,24 +29,24 @@ export default {
             end: 10,
             top: 0,
             tick: false,
-            positions:[],
-            bufferScale:1
+            positions: [],
+            bufferScale: 1
         }
     },
-    computed:{
+    computed: {
         visibleData() {
-            let { start, end } = this
-            start = Math.ceil(start,start - 2);
+            let {start, end} = this
+            start = Math.ceil(start, start - 2);
             end = end + 2;
             const res = this.list.slice(start, end)
             return res
         },
-        //列表总高度
-        listHeight(){
+        // 列表总高度
+        listHeight() {
             let res = this.positions[this.positions.length - 1].bottom
             return res
         },
-        visibleCount(){
+        visibleCount() {
             return Math.ceil(this.screenHeight / this.estimateHeight);
         },
     },
@@ -59,21 +59,21 @@ export default {
     },
     updated() {
         const nodes = this.$refs.items
-        nodes.forEach(node=>{
+        nodes.forEach(node => {
             const rect = node.getBoundingClientRect()
             const height = rect.height
             const index = +node.id.slice(1)
             const oldHeight = this.positions[index].height
             const diffHeight = oldHeight - height
-            if(diffHeight){
+            if (diffHeight) {
                 const pos = this.positions[index]
                 pos.height = height
                 pos.bottom = pos.bottom - diffHeight
-                this.positions[index+1].top = this.positions[index].bottom
+                this.positions[index + 1].top = this.positions[index].bottom
             }
         })
     },
-    methods:{
+    methods: {
         initPositions() {
             this.positions = this.list.map((item, index) => {
                 return {
@@ -84,18 +84,41 @@ export default {
                 }
             })
         },
-        //获取列表起始索引
-        getStartIndex(scrollTop = 0){
-            let item = this.positions.find(i => i && i.bottom > scrollTop);
-            return item.index;
+        // 获取列表起始索引
+        getStartIndex(scrollTop = 0) {
+            console.time(1)
+            // let index = this.positions.find(i => i && i.bottom >= scrollTop).index
+            let index = this.fn(this.positions, scrollTop)
+            console.log(index)
+            console.timeEnd(1)
+            return index
         },
-        //获取当前的偏移量
-        setStartOffset(){
-            let startOffset;
-            if(this.start >= 1){
-                let size = this.positions[this.start].top - (this.positions[this.start - 2] ? this.positions[this.start - 2].top : 0);
-                startOffset = this.positions[this.start - 1].bottom - size;
-            }else{
+        // 10 20 30  40  50 60 70 / 12
+        fn(nums, target) {
+            const n = nums.length
+            let left = 0, right = n - 1, index = n
+            while (left <= right) {
+                const midIndex = parseInt((left + right) / 2)
+                const midValue = nums[midIndex].bottom
+                if (midValue === target) {
+                    return midIndex + 1
+                } else if (midValue < target) {
+                    left = midIndex + 1
+                } else if (midValue > target) {
+                    if (index > midIndex) {
+                        index = midIndex
+                    }
+                    right = right -1
+                }
+            }
+            return index
+        },
+        // 获取当前的偏移量
+        setStartOffset() {
+            let startOffset
+            if (this.start >= 1) {
+                startOffset = this.positions[this.start - 1].bottom
+            } else {
                 startOffset = 0;
             }
             this.top = startOffset
@@ -108,7 +131,7 @@ export default {
         },
         scrollFunc() {
             let scrollTop = this.$refs.containerRef.scrollTop
-            const { visibleCount } = this
+            const {visibleCount} = this
             this.start = this.getStartIndex(scrollTop)
             this.end = this.start + visibleCount
             this.setStartOffset();

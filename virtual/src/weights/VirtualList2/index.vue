@@ -15,7 +15,7 @@
 
 <script>
 export default {
-    name: "virtualList",
+    name: "virtualList2",
     props: {
         itemHeight: Number,
         list:Array

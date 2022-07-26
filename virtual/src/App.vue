@@ -5,6 +5,7 @@
             <virtual-list
                 :list="datalist"
                 :itemHeight="100"
+                class="virtual-list"
                 v-slot="{item}">
                 <div class="virtual-item">
                     <span style="color: red">{{item.index}}</span>{{ item.title }}
@@ -13,19 +14,30 @@
         </div>
         <div>
             <h2>不定高</h2>
+            <virtual-list
+                :list="datalist"
+                :itemHeight="100"
+                class="virtual-list"
+                v-slot="{item}">
+                <div class="virtual-item">
+                    <span style="color: red">{{item.index}}</span>{{ item.title }}
+                </div>
+            </virtual-list>
         </div>
     </div>
 </template>
 
 <script>
 import VirtualList from './weights/VirtualList'
+import VirtualList2 from './weights/VirtualList'
 
 import { getData } from "./config"
 
 export default {
     name: 'App',
     components: {
-        VirtualList
+        VirtualList,
+        VirtualList2
     },
     data(){
         return{
@@ -42,6 +54,10 @@ export default {
     border: 1px solid #e8e8e8;
     display: flex;
     justify-content: space-around;
+}
+.virtual-list{
+    width: 300px;
+    height: 500px;
 }
 .virtual-item{
     box-sizing: border-box;

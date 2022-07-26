@@ -29,9 +29,8 @@
         }
 
         .container-item {
-            line-height: 50px;
-            /*box-sizing: border-box;*/
-            /*border: 1px solid pink;*/
+            box-sizing: border-box;
+            border: 1px solid pink;
         }
     </style>
 </head>
@@ -42,11 +41,12 @@
 <div id="app">
     <div ref="containerRef" class="container" @scroll="handleScroll($event)">
         <div class="container-placeholder" :style="{height:listHeight+'px'}"></div>
-        <div ref="listRef" class="container-list">
+        <div ref="listRef" class="container-list" :style="{transform:'translate3d(0,'+top+'px,0)'}">
             <div
-                    v-for="item in visibleData"
-                    :key="item.index"
-                    class="container-item">
+                v-for="item in visibleData"
+                :key="item.index"
+                class="container-item"
+                :style="{height:itemHeight+'px',lineHeight:itemHeight+'px'}">
                 {{item.title}}
             </div>
         </div>
@@ -71,20 +71,28 @@
         el: '#app',
         data: {
             screenHeight: 0,
-            itemHeight: 50,
+            itemHeight: 100,
             start: 0,
-            end: 0
+            end: 0,
+            top:0,
+            tick:false
         },
         computed: {
             listHeight() {
                 return list.length * this.itemHeight
             },
             visibleData() {
-                const {start, end} = this
+                let { start, end } = this
+                let start2 = start - 2
+                let end2 = end + 2
+                let len = list.length
+
+                start = start2 < 0 ? 0 : start2
+                end = end2 >= len ? len : end2
                 return list.slice(start, end)
             },
             visibleCount() {
-                const {itemHeight, screenHeight} = this
+                const { itemHeight, screenHeight } = this
                 return Math.ceil(screenHeight / itemHeight)
             }
         },
@@ -94,14 +102,20 @@
         },
         methods: {
             handleScroll() {
+                if(!this.tick){
+                    requestAnimationFrame(this.scrollFunc)
+                    this.tick = true
+                }
+            },
+            scrollFunc(){
                 let top = this.$refs.containerRef.scrollTop
-                const {itemHeight, visibleCount} = this
+                const { itemHeight, visibleCount } = this
                 this.start = Math.floor(top / itemHeight)
                 this.end = this.start + visibleCount
+                this.top = top - top % itemHeight
 
-                this.$refs.listRef.style.transform = `translate3d(0,${top}px,0)`
+                this.tick = false
             }
-
         }
     })
 </script>

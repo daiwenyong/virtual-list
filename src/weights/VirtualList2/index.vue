@@ -30,7 +30,7 @@ export default {
             top: 0,
             tick: false,
             positions: [],
-            buffer:5 // 缓存数，防止滑动过快页面白屏
+            buffer: 5 // 缓存数，防止滑动过快页面白屏
         }
     },
     computed: {
@@ -53,7 +53,7 @@ export default {
         this.initPositions()
     },
     mounted() {
-        this.screenHeight = this.$el.clientHeight;
+        this.screenHeight = this.$el.clientHeight
         this.end = this.start + this.visibleCount
     },
     updated() {
@@ -85,29 +85,29 @@ export default {
         },
         // 获取列表起始索引
         getStartIndex(scrollTop = 0) {
-            //let index = this.positions.find(i => i && i.bottom >= scrollTop).index
-            let index = this.fn(this.positions, scrollTop)
+            // console.time(1) // 测试1w条数据
+            // let index = this.positions.find(i => i && i.bottom >= scrollTop).index // 9 10ms
+            let index = this.binarySearch(this.positions, scrollTop) // 1ms内
+            // console.timeEnd(1)
             return index
         },
-        // 10 20 30  40  50 60 70 / 12
-        fn(nums, target) {
-            const n = nums.length
-            let left = 0, right = n - 1, index = n
+        binarySearch(nums, target) {
+            if (target === 0) return 0
+            const len = nums.length
+            let left = 0, right = len - 1
+
             while (left <= right) {
-                const midIndex = parseInt((left + right) / 2)
-                const midValue = nums[midIndex].bottom
-                if (midValue === target) {
-                    return midIndex + 1
-                } else if (midValue < target) {
-                    left = midIndex + 1
-                } else if (midValue > target) {
-                    if (index > midIndex) {
-                        index = midIndex
-                    }
-                    right = right - 1
+                const middleIndex = Math.floor((left + right) / 2)
+                const middleVal = nums[middleIndex].bottom
+                if (left === right || target === middleVal || target > middleVal && target < nums[middleIndex + 1].bottom) {
+                    return middleIndex
+                } else if (middleVal > target) {
+                    right = middleIndex - 1
+                } else if (middleVal < target) {
+                    left = middleIndex + 1
                 }
             }
-            return index
+            return -1
         },
         // 获取当前的偏移量
         setStartOffset() {

@@ -9,7 +9,7 @@
                 :id="item.index"
                 class="container-item"
             >
-                <slot :item="item"/>
+                <slot :item="item" />
             </div>
         </div>
     </div>
@@ -30,21 +30,24 @@ export default {
             top: 0,
             tick: false,
             positions: [],
-            bufferScale: 1
+            bufferScale: 1,
+            buffer:5
         }
     },
     computed: {
+        listLen() {
+            return this.list.length
+        },
         visibleData() {
-            let {start, end} = this
-            start = Math.ceil(start, start - 2);
-            end = end + 2;
-            const res = this.list.slice(start, end)
+            let { start, end, list, buffer } = this
+            start = Math.max(start - buffer, 0)
+            end = end + buffer
+            const res = list.slice(start, end)
             return res
         },
         // 列表总高度
         listHeight() {
-            let res = this.positions[this.positions.length - 1].bottom
-            return res
+            return this.positions[this.listLen - 1].bottom
         },
         visibleCount() {
             return Math.ceil(this.screenHeight / this.estimateHeight);
@@ -62,14 +65,15 @@ export default {
         nodes.forEach(node => {
             const rect = node.getBoundingClientRect()
             const height = rect.height
-            const index = +node.id.slice(1)
+            const index = +node.id
             const oldHeight = this.positions[index].height
             const diffHeight = oldHeight - height
             if (diffHeight) {
                 const pos = this.positions[index]
                 pos.height = height
-                pos.bottom = pos.bottom - diffHeight
-                this.positions[index + 1].top = this.positions[index].bottom
+
+                let bot = index === 0 ? 0 : this.positions[index - 1].bottom
+                pos.bottom = height + bot
             }
         })
     },
@@ -79,18 +83,14 @@ export default {
                 return {
                     index,
                     height: this.estimateHeight,
-                    top: index * this.estimateHeight,
                     bottom: (index + 1) * this.estimateHeight
                 }
             })
         },
         // 获取列表起始索引
         getStartIndex(scrollTop = 0) {
-            console.time(1)
-            // let index = this.positions.find(i => i && i.bottom >= scrollTop).index
+            //let index = this.positions.find(i => i && i.bottom >= scrollTop).index
             let index = this.fn(this.positions, scrollTop)
-            console.log(index)
-            console.timeEnd(1)
             return index
         },
         // 10 20 30  40  50 60 70 / 12
@@ -108,7 +108,7 @@ export default {
                     if (index > midIndex) {
                         index = midIndex
                     }
-                    right = right -1
+                    right = right - 1
                 }
             }
             return index
@@ -131,9 +131,8 @@ export default {
         },
         scrollFunc() {
             let scrollTop = this.$refs.containerRef.scrollTop
-            const {visibleCount} = this
             this.start = this.getStartIndex(scrollTop)
-            this.end = this.start + visibleCount
+            this.end = this.start + this.visibleCount
             this.setStartOffset();
 
             this.tick = false

@@ -59,10 +59,12 @@ export default {
 .virtual-list{
     width: 300px;
     height: 500px;
+    box-sizing: border-box;
+    border: 1px solid #e8e8e8;
 }
 .virtual-item{
     box-sizing: border-box;
-    border: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
 }
 
 </style>

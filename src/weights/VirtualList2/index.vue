@@ -65,14 +65,9 @@ export default {
             const rect = node.getBoundingClientRect()
             const height = rect.height
 
-            const oldHeight = this.positions[index].height
-            const diffHeight = oldHeight - height
-            if (diffHeight) {
-                pos.height = height
-
-                let bot = index === 0 ? 0 : this.positions[index - 1].bottom
-                pos.bottom = height + bot
-            }
+            pos.height = height
+            let bot = index === 0 ? 0 : this.positions[index - 1].bottom
+            pos.bottom = height + bot
             pos.calculated = true
         })
     },

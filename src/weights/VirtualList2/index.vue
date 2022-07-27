@@ -30,14 +30,10 @@ export default {
             top: 0,
             tick: false,
             positions: [],
-            bufferScale: 1,
-            buffer:5
+            buffer:5 // 缓存数，防止滑动过快页面白屏
         }
     },
     computed: {
-        listLen() {
-            return this.list.length
-        },
         visibleData() {
             let { start, end, list, buffer } = this
             start = Math.max(start - buffer, 0)
@@ -47,7 +43,7 @@ export default {
         },
         // 列表总高度
         listHeight() {
-            return this.positions[this.listLen - 1].bottom
+            return this.positions[this.list.length - 1].bottom
         },
         visibleCount() {
             return Math.ceil(this.screenHeight / this.estimateHeight);

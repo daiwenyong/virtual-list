@@ -59,18 +59,21 @@ export default {
     updated() {
         const nodes = this.$refs.items
         nodes.forEach(node => {
+            const index = +node.id
+            const pos = this.positions[index]
+            if(pos.calculated)return
             const rect = node.getBoundingClientRect()
             const height = rect.height
-            const index = +node.id
+
             const oldHeight = this.positions[index].height
             const diffHeight = oldHeight - height
             if (diffHeight) {
-                const pos = this.positions[index]
                 pos.height = height
 
                 let bot = index === 0 ? 0 : this.positions[index - 1].bottom
                 pos.bottom = height + bot
             }
+            pos.calculated = true
         })
     },
     methods: {
@@ -79,7 +82,8 @@ export default {
                 return {
                     index,
                     height: this.estimateHeight,
-                    bottom: (index + 1) * this.estimateHeight
+                    bottom: (index + 1) * this.estimateHeight,
+                    calculated:false // 是否计算过
                 }
             })
         },

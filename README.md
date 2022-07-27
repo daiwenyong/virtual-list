@@ -1,2 +1,2 @@
 # virtual-list
-![img.png](img.png)
+![img.png](img.gif)
